@@ -1,0 +1,37 @@
+div.grid-row
+  display: flex;
+
+.cell
+  width: 25px;
+  height: 25px;
+  border: solid 1px lightsteelblue;
+  font-size: 16px;
+  text-align: center;
+  color: seagreen;
+  font-weight: bold;
+  padding: 1px;
+  line-height: 1.5;
+
+.unclicked-cell
+  @extend .cell
+  background-color: lightgray;
+
+.clicked-cell
+  @extend .cell
+  background-color: silver;
+  border: 1px solid gray;
+
+.minesweeper-container
+  font-family: monospace
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 40%;
+  height: 50px;
+
+  .header-item
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+

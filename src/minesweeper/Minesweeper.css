@@ -1,0 +1,37 @@
+div.grid-row {
+  display: flex;
+}
+.cell,
+.unclicked-cell,
+.clicked-cell {
+  width: 25px;
+  height: 25px;
+  border: solid 1px #b0c4de;
+  font-size: 16px;
+  text-align: center;
+  color: #2e8b57;
+  font-weight: bold;
+  padding: 1px;
+  line-height: 1.5;
+}
+.unclicked-cell {
+  background-color: #d3d3d3;
+}
+.clicked-cell {
+  background-color: #c0c0c0;
+  border: 1px solid #808080;
+}
+.minesweeper-container {
+  font-family: monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 40%;
+  height: 50px;
+}
+.minesweeper-container .header-item {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
