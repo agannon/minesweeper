@@ -71,6 +71,8 @@ const MinesweeperContainer = (props) => {
 const Grid = (props) => {
   const mines = getNRandomNumFromNaturalsLessThanM(props.numMines, props.length * props.length);
   let emptyArray = new Array(props.length);
+
+  // Fill grid with mines
   for (let i = 0; i < props.length; i++) {
     emptyArray[i] = new Array(props.length);
     for (let j = 0; j < props.length; j++) {
@@ -82,6 +84,12 @@ const Grid = (props) => {
     }
   }
 
+  /**
+   * If there is a mine, show mine and stop clock
+   * Else show the number of adjacent mines if any
+   * @param x - x position in the grid
+   * @param y - y posiiton in the grid
+   */
   const handleLeftClick = (x, y) => {
     if (!props.timerIsRunning) {
       props.startTimer();
@@ -93,6 +101,7 @@ const Grid = (props) => {
     if (cell.contents === CELL_CONTENTS.empty) {
       cell.contents = getNeighborMineCount(x, y);
     } else {
+      // If there is a mine the game is over
       props.stopTimer();
     }
 
@@ -102,6 +111,12 @@ const Grid = (props) => {
 
   }
 
+  /**
+   * If a user suspects there is a mine here
+   * Add a flag to the board and decrease the number of remaining flags
+   * @param x - x position in the grid
+   * @param y - y posiiton in the grid
+   */
   const handleRightClick = (x, y) => {
     let cell = grid[x][y];
     cell.status = CELL_STATUSES.flagged;
@@ -111,30 +126,22 @@ const Grid = (props) => {
     setGrid(grid2);
 
     props.changeFlagCount(false);
-
   }
 
+  /**
+   * Gets the number of mines in the 8 adjacent cells
+   * Ranges from 0 to 8
+   * @param x - x position in the grid
+   * @param y - y posiiton in the grid
+   * @returns {number}
+   */
   const getNeighborMineCount = (x, y) => {
-    //console.log(grid);
     let is, js;
     let count = 0;
-    // if (x === 0) {
-    //   is = [x, x + 1];
-    // } else if (x === props.length - 1) {
-    //   is = [x - 1, x];
-    // } else {
-    //   is = [x - 1, x, x + 1];
-    // }
+
+    // Get the adjacent cells for the cell located at (x, y)
     is = [props.length + x - 1, x, x + 1].map(item => item % props.length);
     js = [props.length + y - 1, y, y + 1].map(item => item % props.length);
-
-    // if (y === 0) {
-    //   js = [y, y + 1];
-    // } else if (y === props.length - 1) {
-    //   js = [y - 1, y];
-    // } else {
-    //   js = [y - 1, y, y + 1];
-    // }
 
     for (let i of is) {
       for (let j of js) {
@@ -156,6 +163,7 @@ const Grid = (props) => {
     <Row
       key={index}
       cells={row}
+      // Using bind here in order to curry the function for partial application
       handleLeftClick={handleLeftClick.bind(null, index)}
       handleRightClick={handleRightClick.bind(null, index)}
     />);
@@ -174,6 +182,7 @@ const Row = (props) => {
       key={index}
       status={cell.status}
       contents={cell.contents}
+      // Using bind here in order to curry the function for partial application
       handleLeftClick={props.handleLeftClick.bind(null, index)}
       handleRightClick={props.handleRightClick.bind(null, index)}
     />);
@@ -230,6 +239,12 @@ const Cell = (props) => {
   );
 }
 
+/**
+ * Gets n random natural number from range 1..m without replacement
+ * @param n
+ * @param m
+ * @returns {[]}
+ */
 const getNRandomNumFromNaturalsLessThanM = (n, m) => {
   let bucket = new Array(m);
   let choices = [];
